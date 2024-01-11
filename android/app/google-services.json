@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879083033261",
+    "project_id": "whatsapplight-33828",
+    "storage_bucket": "whatsapplight-33828.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879083033261:android:e053404d1054190127ac24",
+        "android_client_info": {
+          "package_name": "com.whatsapplight"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4DHljwEIG_EKlESdnxK2v4ERu93l6DBc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
