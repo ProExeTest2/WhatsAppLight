@@ -1,3 +1,18 @@
+diff --git a/node_modules/react-native-element-dropdown/src/components/Dropdown/index.tsx b/node_modules/react-native-element-dropdown/src/components/Dropdown/index.tsx
+index 07bf17b..296075f 100644
+--- a/node_modules/react-native-element-dropdown/src/components/Dropdown/index.tsx
++++ b/node_modules/react-native-element-dropdown/src/components/Dropdown/index.tsx
+@@ -381,8 +381,8 @@ const DropdownComponent: <T>(
+               {...selectedTextProps}
+             >
+               {isSelected !== null
+-                ? _.get(currentValue, labelField)
+-                : placeholder}
++                ? placeholder
++                : value}
+             </Text>
+             {renderRightIcon ? (
+               renderRightIcon(visible)
 diff --git a/node_modules/react-native-element-dropdown/src/components/Dropdown/styles.ts b/node_modules/react-native-element-dropdown/src/components/Dropdown/styles.ts
 index 751c62a..27021e2 100644
 --- a/node_modules/react-native-element-dropdown/src/components/Dropdown/styles.ts

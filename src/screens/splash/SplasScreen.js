@@ -6,13 +6,14 @@ import {
   StyleSheet,
   Animated,
   Image,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import {string, images, colors, hp, wp, Roboto} from '../../helper';
 import SpalshBg from '../../components/Splash/spalshBg';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 const SplasScreen = () => {
 
@@ -23,7 +24,8 @@ const SplasScreen = () => {
   const {navigate} = useNavigation();
   const color = useSelector(state => state?.data1?.iscolorMode);
   const styles = ThemeStyle(color);
-  console.log('color==============>', color)
+  const focuse = useIsFocused();
+
   useEffect( () => {
     Animated.parallel([
       Animated.timing(translateY, {
@@ -40,10 +42,10 @@ const SplasScreen = () => {
     ]).start(() => {
       setTransformIs(true);
       setTimeout(()=>{
-          navigate(data? 'index':'WelcomeScreen')
+          navigate(data ?'index':'WelcomeScreen')
       },3000)
     });
-  }, []);
+  }, [focuse]);
 
   const animatedStyle = {
     transform: [{translateY: translateY}],

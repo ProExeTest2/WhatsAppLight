@@ -1,11 +1,21 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors, hp, images, wp } from '../../helper'
 import { useSelector } from 'react-redux';
 
 const InputView = ({value,onChangeText,placeholder,placeholderTextColor,onSendPress}) => {
 
     const [keyboard,setKeyboardOn]=useState(false);
+    const [flag,setFlag] = useState(false)
+    useEffect(()=>{
+      // const isWhitespaceString = str => !/\S/.test(str);
+      // if(isWhitespaceString(value)){
+      //     return null;
+      // }else{
+      //     setFlag
+      // } 
+    },[])
+    
     const color = useSelector(state => state?.data1?.iscolorMode);
     const styles = ThemeStyle(color);
   return (
@@ -45,7 +55,7 @@ const InputView = ({value,onChangeText,placeholder,placeholderTextColor,onSendPr
     </View>
         <TouchableOpacity onPress={onSendPress} style={{backgroundColor:colors?.chatHeader, height:hp(6.15), width:hp(6.15), borderRadius:hp(5), alignItems:'center', justifyContent:'center'}}>
             <Image
-            source={value ?images?.send : images?.mic_white}
+            source={ value ?images?.send : images?.mic_white}
             // resizeMode='contain'
             style={{height:hp(3.5), width:hp(3),tintColor:colors?.white}}
             />

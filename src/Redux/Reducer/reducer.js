@@ -1,4 +1,4 @@
-import {CHAT_DATA, PHONE_NUM,ACTIVE_USER_DATA, PHONE_NUM_DATA,USERDATA, CHAT} from '../action/actionType';
+import {CHAT_DATA, PHONE_NUM,ACTIVE_USER_DATA, PHONE_NUM_DATA,USERDATA, CHAT, STATUS_DATA} from '../action/actionType';
 
 const initialState = {
   user: null,
@@ -37,6 +37,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         chat: action.payload,
+      };
+    case STATUS_DATA:
+      return {
+        ...state,
+        statusData: action.payload,
       };
     default:
       return state;

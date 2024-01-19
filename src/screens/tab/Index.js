@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  BackHandler,
 } from 'react-native';
 import CallScreen from './CallScreen';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import StoryScreen from './status/StoryScreen';
 import ChatScreen from './chat/ChatScreen';
 import auth from '@react-native-firebase/auth';
@@ -34,6 +35,14 @@ const Index = () => {
   const color = useSelector(state => state?.data1?.iscolorMode);
   const styles = ThemeStyle(color);
 
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler?.exitApp()
+      return true;
+    };
+   BackHandler.addEventListener('hardwareBackPress', backAction);
+  }, []);
+  
   const renderMenu = () => {
     const listRenderItem = ({item}) => {
       const onOptionPress = () => {

@@ -11,21 +11,21 @@ import moment from 'moment';
 import {useSelector} from 'react-redux';
 import notifee from '@notifee/react-native';
 import auth from '@react-native-firebase/auth';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {chat} from '../../../Redux/action/action';
 import {useNavigation} from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';  
+import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import InputView from '../../../components/chat/InputView';
 import ChatHeader from '../../../components/chat/ChatHeader';
 import {Roboto, colors, hp, images, wp} from '../../../helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-
 const ChatData = () => {
   const {navigate, goBack} = useNavigation();
   const [chatText, setChatText] = useState('');
   const [messages, setMessages] = useState([]);
+  let scrollRef = useRef();
   const data = useSelector(state => state?.data?.chatData);
   const activeUserData = useSelector(state => state?.data?.activeUserData);
 
@@ -47,9 +47,7 @@ const ChatData = () => {
       });
     getToken();
     onMesaage();
-
   }, []);
-
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -60,9 +58,10 @@ const ChatData = () => {
   }, []);
 
   const sendPushNotification = async () => {
-    // const FIREBASE_API_KEY = 'AIzaSyB0-bQqF3aNRZh4z4ss-sz4uf3Q2nv3eZU';
     const message = {
-      registration_ids:['czxaCFM_S2idmjh-EzVLew:APA91bFYT5g0xC01bwlTIoaLQ1yF2M3dZWF6A_XnXfzypEJyhtt1Xb0mcsC5uPjBaR9AI7nj8gmeyM1BaHPmnuYTzBbuKAGMsddj-2iXG74s8ateB6ElLjiPIOxvJzo5oNR6KPvU8VRn'],
+      registration_ids: [
+        'czxaCFM_S2idmjh-EzVLew:APA91bFYT5g0xC01bwlTIoaLQ1yF2M3dZWF6A_XnXfzypEJyhtt1Xb0mcsC5uPjBaR9AI7nj8gmeyM1BaHPmnuYTzBbuKAGMsddj-2iXG74s8ateB6ElLjiPIOxvJzo5oNR6KPvU8VRn',
+      ],
       notification: {
         title: 'Video Call',
         body: 'babu is calling you',
@@ -72,7 +71,6 @@ const ChatData = () => {
         show_in_background: true,
         priority: 'high',
         content_available: true,
-        
       },
       data: {
         title: 'Video Call',
@@ -94,51 +92,50 @@ const ChatData = () => {
     response = await response.json();
     // console.log(response.success);
   };
-const getToken = async ()=>{
-  const token = await messaging().getToken();
-  // console.log(token,"hekllo ghelopo")
-}
-const onMesaage = ()=>{
-  messaging().onMessage(async remoteMessage => {
-    // console.log(remoteMessage.data.title,"datatatatata")
-    // const channelId = await notifee.createChannel({
-    //   id: auth().currentUser?.uid,
-    //   name: 'WhattsApp',
-    // });
+  const getToken = async () => {
+    const token = await messaging().getToken();
+    // console.log(token,"hekllo ghelopo")
+  };
+  const onMesaage = () => {
+    messaging().onMessage(async remoteMessage => {
+      // console.log(remoteMessage.data.title,"datatatatata")
+      // const channelId = await notifee.createChannel({
+      //   id: auth().currentUser?.uid,
+      //   name: 'WhattsApp',
+      // });
 
-    // Display a notification
-    await notifee.displayNotification({
-      title: remoteMessage.data.title,
-      body: remoteMessage.data.body,
-      android: {
-        channelId: 'default',
-        actions: [
-          {
-            title: 'Mark as Read',
-            pressAction: {
-              id: 'read',
+      // Display a notification
+      await notifee.displayNotification({
+        title: remoteMessage.data.title,
+        body: remoteMessage.data.body,
+        android: {
+          channelId: 'default',
+          actions: [
+            {
+              title: 'Mark as Read',
+              pressAction: {
+                id: 'read',
+              },
             },
-          },
-        ],
-      },
+          ],
+        },
+      });
+      //  const data =;
+      // notifee.displayNotification(JSON.stringify(remoteMessage.data));
+      // Alert.alert(`${remoteMessage?.notification?.title}`, remoteMessage?.notification?.body);
     });
-    //  const data =;
-    // notifee.displayNotification(JSON.stringify(remoteMessage.data));
-    // Alert.alert(`${remoteMessage?.notification?.title}`, remoteMessage?.notification?.body);
-  });
-}
+  };
   //  enQascixTaS0TNQD8aonZE:APA91bH0a5-YSm2qfTgpg0oAeBjHLTp3FBGmDTaVk8ro-ByuDK5s6jiM6Rv_HjUYHCGmoqPrAyMK5VfTDc9w775jCJeEuIO9-mvH72ZPULqAhem3i3EweIpmQKB0MiBRPiHkPh811xFI
   const onSendPress = () => {
     const msg = {
-      message: chatText,
-      sendBy: auth().currentUser?.uid ,
+      message: chatText.trimStart(),
+      sendBy: auth().currentUser?.uid,
       createAt: moment(new Date()).format('DD/MM/YYYY'),
     };
-
     const docId =
       activeUserData?.Uid > data?.Uid
         ? auth().currentUser?.uid + '_' + data?.Uid
-        : data?.Uid + '_' + auth().currentUser?.uid ;
+        : data?.Uid + '_' + auth().currentUser?.uid;
 
     firestore()
       .collection('chats')
@@ -146,6 +143,7 @@ const onMesaage = ()=>{
       .set({chat: [...messages, msg]})
       .then(() => {
         console.log('Array updated successfully');
+        setChatText('')
       })
       .catch(error => {
         Alert.alert(error);
@@ -169,11 +167,15 @@ const onMesaage = ()=>{
       />
       <ImageBackground source={images?.whatsAppBG1} style={{flex: 1}}>
         <KeyboardAwareScrollView
+        // onKeyboardWillHide={()=>onSendPress}
           bounces={false}
           extraScrollHeight={hp(4)}
           contentContainerStyle={{flex: 1}}>
           <FlatList
             bounces={false}
+            ref={ref => (scrollRef = ref)}
+            onContentSizeChange={() => scrollRef?.scrollToEnd({animated: true})}
+            onLayout={() => scrollRef.scrollToEnd({animated: true})}
             data={messages}
             style={{flex: 1}}
             renderItem={item => {
@@ -183,7 +185,7 @@ const onMesaage = ()=>{
                     style={[
                       {
                         alignSelf:
-                          item?.item?.sendBy == auth().currentUser?.uid 
+                          item?.item?.sendBy == auth().currentUser?.uid
                             ? 'flex-end'
                             : 'flex-start',
                       },
@@ -198,7 +200,14 @@ const onMesaage = ()=>{
           <InputView
             value={chatText}
             // onSendPress={sendPushNotification}
-            onSendPress={onSendPress}
+            onSendPress={()=>{
+              const isWhitespaceString = str => !/\S/.test(str);
+              if(isWhitespaceString(chatText)){
+                return null;
+              }else{
+                onSendPress();
+              }
+            } }
             placeholder={'Message ...'}
             placeholderTextColor={colors?.grey}
             onChangeText={text => setChatText(text)}
@@ -229,7 +238,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors?.chatColor,
   },
 });
-
 
 // import React, { useState, useEffect } from 'react';
 // import {

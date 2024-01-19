@@ -17,13 +17,15 @@ import firestore from '@react-native-firebase/firestore';
 import {Roboto, colors, hp, images} from '../../../helper';
 import StatusCard from '../../../components/status/StatusCard';
 import {showMessageFunction} from '../../../helper/globalHelper'; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { statusData } from '../../../Redux/action/action';
 
 const StoryScreen = () => {
   const item = [];
   const {navigate} = useNavigation();
   const [status, setStatus] = useState([]);
   const [userData, setUserData] = useState();
+  const dispatch = useDispatch();
   const [statusVisible, setStatusVisible] = useState(false);
   const color = useSelector(state => state?.data1?.iscolorMode);
   const styles = ThemeStyle(color);
@@ -117,7 +119,10 @@ const StoryScreen = () => {
                 addtionalStyle={{
                   marginBottom: index + 1 === status?.length && hp(1.5),
                 }}
-                onMainPress={()=>navigate('StatusShow')}
+                onMainPress={()=>{
+                  navigate('StatusShow')
+                  dispatch(statusData(item?.status))
+                }}
               />
             );
           }}

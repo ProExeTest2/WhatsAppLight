@@ -73,7 +73,7 @@ const ProfileScreen = () => {
       ?.collection('Users')
       ?.doc(auth().currentUser?.uid)
       ?.set({...UserData, UserName: userName, Email: email, BirthDate: dob, About:about,ProfileImage:userProfile})
-      ?.then(() => {
+      ?.then((res) => {
         console.log('res', res)
         showMessageFunction(
           'Congratulations',
@@ -83,6 +83,7 @@ const ProfileScreen = () => {
         goBack();
       })
       ?.catch(err => {
+        console.log('err', err)
         showMessageFunction('Sorry', 'Upload Status Failed', 'Failed');
       });
   };

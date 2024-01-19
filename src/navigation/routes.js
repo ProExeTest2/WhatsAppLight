@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeScreen from '../screens/splash/WelcomeScreen';
 import SplasScreen from '../screens/splash/SplasScreen';
 import PhoneAuth from '../screens/auth/PhoneAuth';
@@ -17,9 +16,10 @@ import StatusShow from '../screens/tab/status/StatusShow';
 import SettingIndex from '../screens/setting/SettingIndex';
 import ProfileScreen from '../screens/setting/Account/ProfileScreen';
 import ChatsSetting from '../screens/setting/chat/ChatsSetting';
+import {createStackNavigator} from '@react-navigation/stack';
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const routes=()=> {
 // import { useColorScheme } from "react-native";
@@ -29,7 +29,7 @@ const routes=()=> {
     <NavigationContainer
     // theme={}
     >
-      <Stack.Navigator initialRouteName='SplasScreen' screenOptions={{headerShown:false}}>
+      <Stack.Navigator initialRouteName='SplasScreen' screenOptions={{headerShown:false,gestureEnabled:false}}>
         <Stack.Screen name="SplasScreen" component={SplasScreen} />
         <Stack.Screen name="PhoneAuth" component={PhoneAuth} />
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />

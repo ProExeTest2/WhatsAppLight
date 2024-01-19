@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Roboto, colors, hp, images, wp} from '../../helper';
 import { useSelector } from 'react-redux';
+import babelConfig from '../../../babel.config';
 
 const ChatCard = ({profileImage,messageCount,subText,userName,timeOfMsg,panddingMessage,onPress,addtionalStyle}) => {
   const color = useSelector(state => state?.data1?.iscolorMode);
@@ -11,7 +12,7 @@ const ChatCard = ({profileImage,messageCount,subText,userName,timeOfMsg,pandding
     <TouchableOpacity>
     <Image
     source={profileImage}
-    style={{height:hp(6.5), width:hp(6.5)}}
+    style={{height:hp(6.5), width:hp(6.5), borderRadius:hp(5)}}
     />
     </TouchableOpacity>
     <View style={{flex:1}}>
