@@ -1,4 +1,4 @@
-import {Alert, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Roboto, colors, hp, images, string, wp} from '../../helper';
 import {countries} from '../../helper/dummyData';
@@ -12,11 +12,12 @@ import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid'
 
 const PhoneAuth = () => {
-  const [value, setValue] = useState(null);
-  const [valueNum, setValueNum] = useState('');
+  const [value, setValue] = useState('Select Text');
+  const [valueNum, setValueNum] = useState();
   const [isFocus, setIsFocus] = useState(false);
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
+  const [uid, setUid]=(uuid.v4())
 
   return (
     <View style={styles?.container}>
@@ -57,15 +58,17 @@ const PhoneAuth = () => {
         <Text style={{color: colors?.selectText}}>{string?.phoneAuth1}</Text>
       </Text>
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown, isFocus && {borderColor: colors?.chatHeader}]}
         placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
+        // selectedTextStyle={styles.selectedTextStyle}
+        // inputSearchStyle={styles.inputSearchStyle}
+        // iconStyle={styles.iconStyle}
+        // containerStyle={{backgroundColor:'red'}}
         data={countries}
+        // onChangeText={(item)=>{console.log('item', item)}}
         maxHeight={300}
         valueField="value"
-        placeholder={!isFocus ? 'Select Country' : '...'}
+        placeholder={'Select Country'}
         value={value?.name}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
@@ -76,7 +79,7 @@ const PhoneAuth = () => {
         renderRightIcon={() => (
           <Image
             source={images?.downArrow}
-            style={{height: hp(1), width: wp(2)}}
+            style={{height: hp(2), width: hp(2)}}
           />
         )}
         renderItem={item => {
@@ -92,6 +95,7 @@ const PhoneAuth = () => {
           style={{
             height: hp(5),
             width: wp(14.66),
+            fontSize:15,
             borderColor: colors?.themeColor,
             borderBottomWidth: 1,
             borderRadius: 8,
@@ -100,7 +104,7 @@ const PhoneAuth = () => {
             textAlign: 'center',
           }}
           placeholder={value?.phoneCode}
-          value={value?.phoneCode}
+          value={value?.phoneCode ? value?.phoneCode : '+00'}
           onChangeText={text => {
             countries?.map(i => {
               if (i?.phoneCode == text) {
@@ -114,12 +118,14 @@ const PhoneAuth = () => {
             height: hp(5),
             borderRadius: 8,
             width: wp(42.66),
-            textAlign: 'center',
+            fontSize:15,
+            // textAlign: 'center',
             paddingHorizontal: 8,
             borderBottomWidth: 1,
             borderColor: colors?.themeColor,
           }}
           maxLength={10}
+          inputMode='numeric'
           keyboardType="phone-pad"
           placeholder={'Enter Phone Number'}
           value={valueNum}
@@ -140,20 +146,9 @@ const PhoneAuth = () => {
       <CommonButton
         buttonText={'NEXT'}
         onPress={async() => {
-          const data={
-            Age:'20',
-            UserName: 'parth Tejani',
-            Phonenumber: "+91"+valueNum,
-            BirthDate: '10/09/2004',
-            Email:'khushal@gmail.com',
-            Uid: uuid.v4()
-          };
-           const arr = await auth().signInWithPhoneNumber("+91"+valueNum)
+           const arr = await auth().signInWithPhoneNumber(value?.phoneCode+valueNum)
           .then((res) => {
-            //  firestore().collection('Users').doc(uuid.v4()).set(data).then(()=>{
-              navigate('OtpScreen'), dispatch(setNumberData([res,{number:'+91'+valueNum}]));
-
-              
+              navigate('OtpScreen'), dispatch(setNumberData([res,{number:value?.phoneCode+valueNum}]));
             })
             .catch(err => {
               console.log('err', err);
@@ -202,10 +197,13 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 15,
+    color:colors?.black,
     textAlign: 'center',
   },
   selectedTextStyle: {
     fontSize: 15,
+    fontFamily:Roboto?.medium,
+    color: colors?.black,
     textAlign: 'center',
   },
   iconStyle: {
@@ -215,6 +213,7 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 15,
-    textAlign: 'center',
+    color:colors?.black,
+    // textAlign: 'center',
   },
 });

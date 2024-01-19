@@ -7,7 +7,7 @@ export const string = {
      from: 'from',
      brandName:'ProexeLancers',
      loadingText: 'Loading',
-     appName:'WhatsApp',
+     appName:'WhatsAppLight',
      buttonText:'AGREE AND CONTINUE',
      phoneAuth:"WhatsApp will need to verify your phone number.",
      phoneAuth1:" What’s my number?",

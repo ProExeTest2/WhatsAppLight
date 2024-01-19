@@ -6,18 +6,18 @@ import {
   StyleSheet,
   SafeAreaView,
   ImageBackground,
-  Platform,
 } from 'react-native';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
+import notifee from '@notifee/react-native';
+import auth from '@react-native-firebase/auth';
 import React, {useEffect, useState} from 'react';
+import {chat} from '../../../Redux/action/action';
 import {useNavigation} from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';
-
+import firestore from '@react-native-firebase/firestore';  
+import messaging from '@react-native-firebase/messaging';
 import InputView from '../../../components/chat/InputView';
 import ChatHeader from '../../../components/chat/ChatHeader';
-
-import {chat} from '../../../Redux/action/action';
 import {Roboto, colors, hp, images, wp} from '../../../helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -32,8 +32,8 @@ const ChatData = () => {
   useEffect(() => {
     const docId =
       activeUserData?.Uid > data?.Uid
-        ? activeUserData?.Uid + '_' + data?.Uid
-        : data?.Uid + '_' + activeUserData?.Uid;
+        ? auth().currentUser?.uid + '_' + data?.Uid
+        : data?.Uid + '_' + auth().currentUser?.uid;
 
     firestore()
       .collection('chats')
@@ -45,20 +45,100 @@ const ChatData = () => {
           setMessages(query?._data?.chat);
         }
       });
+    getToken();
+    onMesaage();
+
   }, []);
 
 
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const sendPushNotification = async () => {
+    // const FIREBASE_API_KEY = 'AIzaSyB0-bQqF3aNRZh4z4ss-sz4uf3Q2nv3eZU';
+    const message = {
+      registration_ids:['czxaCFM_S2idmjh-EzVLew:APA91bFYT5g0xC01bwlTIoaLQ1yF2M3dZWF6A_XnXfzypEJyhtt1Xb0mcsC5uPjBaR9AI7nj8gmeyM1BaHPmnuYTzBbuKAGMsddj-2iXG74s8ateB6ElLjiPIOxvJzo5oNR6KPvU8VRn'],
+      notification: {
+        title: 'Video Call',
+        body: 'babu is calling you',
+        vibrate: 1,
+        sound: 1,
+        show_in_foreground: true,
+        show_in_background: true,
+        priority: 'high',
+        content_available: true,
+        
+      },
+      data: {
+        title: 'Video Call',
+        body: 'babu is calling you',
+      },
+    };
+
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      Authorization:
+        'key=AAAAzK1ukq0:APA91bFgazXCO1YA5_jbQAAqmIwAWpl_aNuD6XlL04BtzrBN1gSpquVD0KjTOoGqy7AeulM-3TvhIPiYEDqRHFjzwBdQ4EqPcvVJvSbrwAxM2ybvxaz9xnJoHc257KomjjXaXYX1N9jg',
+    });
+
+    let response = await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(message),
+    });
+    response = await response.json();
+    // console.log(response.success);
+  };
+const getToken = async ()=>{
+  const token = await messaging().getToken();
+  // console.log(token,"hekllo ghelopo")
+}
+const onMesaage = ()=>{
+  messaging().onMessage(async remoteMessage => {
+    // console.log(remoteMessage.data.title,"datatatatata")
+    // const channelId = await notifee.createChannel({
+    //   id: auth().currentUser?.uid,
+    //   name: 'WhattsApp',
+    // });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: remoteMessage.data.title,
+      body: remoteMessage.data.body,
+      android: {
+        channelId: 'default',
+        actions: [
+          {
+            title: 'Mark as Read',
+            pressAction: {
+              id: 'read',
+            },
+          },
+        ],
+      },
+    });
+    //  const data =;
+    // notifee.displayNotification(JSON.stringify(remoteMessage.data));
+    // Alert.alert(`${remoteMessage?.notification?.title}`, remoteMessage?.notification?.body);
+  });
+}
+  //  enQascixTaS0TNQD8aonZE:APA91bH0a5-YSm2qfTgpg0oAeBjHLTp3FBGmDTaVk8ro-ByuDK5s6jiM6Rv_HjUYHCGmoqPrAyMK5VfTDc9w775jCJeEuIO9-mvH72ZPULqAhem3i3EweIpmQKB0MiBRPiHkPh811xFI
   const onSendPress = () => {
     const msg = {
       message: chatText,
-      sendBy: activeUserData?.Uid,
+      sendBy: auth().currentUser?.uid ,
       createAt: moment(new Date()).format('DD/MM/YYYY'),
     };
 
     const docId =
       activeUserData?.Uid > data?.Uid
-        ? activeUserData?.Uid + '_' + data?.Uid
-        : data?.Uid + '_' + activeUserData?.Uid;
+        ? auth().currentUser?.uid + '_' + data?.Uid
+        : data?.Uid + '_' + auth().currentUser?.uid ;
 
     firestore()
       .collection('chats')
@@ -103,7 +183,7 @@ const ChatData = () => {
                     style={[
                       {
                         alignSelf:
-                          item?.item?.sendBy == activeUserData?.Uid
+                          item?.item?.sendBy == auth().currentUser?.uid 
                             ? 'flex-end'
                             : 'flex-start',
                       },
@@ -117,6 +197,7 @@ const ChatData = () => {
           />
           <InputView
             value={chatText}
+            // onSendPress={sendPushNotification}
             onSendPress={onSendPress}
             placeholder={'Message ...'}
             placeholderTextColor={colors?.grey}

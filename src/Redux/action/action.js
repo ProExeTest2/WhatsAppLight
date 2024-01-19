@@ -1,4 +1,4 @@
-import {CHAT_DATA,ACTIVE_USER_DATA, PHONE_NUM,PHONE_NUM_DATA, USERDATA, CHAT} from './actionType';
+import {CHAT_DATA,ACTIVE_USER_DATA, PHONE_NUM,PHONE_NUM_DATA, USERDATA, CHAT, THEME} from './actionType';
 
 export const setNumber = user => ({
   type: PHONE_NUM,
@@ -22,5 +22,9 @@ export const activeUserData = user => ({
 });
 export const chat = user => ({
   type: CHAT,
+  payload: user,
+});
+export const theme = user => ({
+  type: THEME,
   payload: user,
 });

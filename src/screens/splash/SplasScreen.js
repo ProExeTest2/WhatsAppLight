@@ -21,7 +21,9 @@ const SplasScreen = () => {
   const [translateY] = useState(new Animated.Value(0));
   const [transformIs, setTransformIs] = useState(false);
   const {navigate} = useNavigation();
-
+  const color = useSelector(state => state?.data1?.iscolorMode);
+  const styles = ThemeStyle(color);
+  console.log('color==============>', color)
   useEffect( () => {
     Animated.parallel([
       Animated.timing(translateY, {
@@ -49,7 +51,7 @@ const SplasScreen = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: colors?.backgroundColor}}>
+    <View style={styles?.container}>
       <View style={styles?.style0}>
         <Image
           source={images?.shape1}
@@ -104,12 +106,11 @@ const SplasScreen = () => {
     </View>
   );
 };
+export default SplasScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors?.backgroundColor,
-  },
+const ThemeStyle = color => {
+  return StyleSheet.create({
+  container: {flex: 1, backgroundColor: color?.backgroundColor},
   style1: {
     height: hp(21.37),
     width: wp(20),
@@ -142,21 +143,20 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 25,
     fontFamily:Roboto?.bold,
-    color: colors?.black,
+    color: color?.fontColor,
     textAlign: 'center',
     bottom: 30,
   },
   smallText: {
     fontSize: 10,
-    color: colors?.black,
+    color: color?.fontColor,
   },
   normalText: {
     fontSize: 15,
-    color: colors?.black,
+    color: color?.fontColor,
   },
-});
+});}
 
-export default SplasScreen;
 // });
 // import React from 'react';
 // import {View, StyleSheet, Text} from 'react-native';

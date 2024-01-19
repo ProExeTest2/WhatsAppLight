@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* WhatsAppLightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* WhatsAppLightTests.m */; };
-		04B7F86F2B42B4630036B9DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04B7F86E2B42B4630036B9DD /* GoogleService-Info.plist */; };
+		0490F9572B4FBCC100222E6A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0490F9562B4FBCC100222E6A /* GoogleService-Info.plist */; };
 		0DC8585661014E54AD66857E /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9123A2C6BE6432BBF57CC50 /* Roboto-MediumItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -50,7 +50,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* WhatsAppLightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhatsAppLightTests.m; sourceTree = "<group>"; };
 		045839B32B4E981F003BFACA /* WhatsAppLight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = WhatsAppLight.entitlements; path = WhatsAppLight/WhatsAppLight.entitlements; sourceTree = "<group>"; };
-		04B7F86E2B42B4630036B9DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0490F9562B4FBCC100222E6A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06124A0B2D074D0A9CDFA8A6 /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../src/assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		08B3F691ACE382342E35E3D7 /* Pods-WhatsAppLight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatsAppLight.release.xcconfig"; path = "Target Support Files/Pods-WhatsAppLight/Pods-WhatsAppLight.release.xcconfig"; sourceTree = "<group>"; };
 		0B041FA468AD44039DE05AC3 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../src/assets/fonts/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 		13B07FAE1A68108700A75B9A /* WhatsAppLight */ = {
 			isa = PBXGroup;
 			children = (
+				0490F9562B4FBCC100222E6A /* GoogleService-Info.plist */,
 				045839B32B4E981F003BFACA /* WhatsAppLight.entitlements */,
-				04B7F86E2B42B4630036B9DD /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -312,7 +312,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				04B7F86F2B42B4630036B9DD /* GoogleService-Info.plist in Resources */,
 				B740BD25826F45109E0D5F3B /* Roboto-Black.ttf in Resources */,
 				3175D5AA0D9E463DB6F1AAA7 /* Roboto-BlackItalic.ttf in Resources */,
 				36216CC67E99473888EC3531 /* Roboto-Bold.ttf in Resources */,
@@ -331,6 +330,7 @@
 				D5A1599EC4A44E82B9E223E1 /* Roboto-ThinItalic.ttf in Resources */,
 				F157FDC1A4FB40E9BE32B3AD /* NOTICE.txt in Resources */,
 				6AF3078B1E604331829A8D16 /* Roboto_Specimen_Book.pdf in Resources */,
+				0490F9572B4FBCC100222E6A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

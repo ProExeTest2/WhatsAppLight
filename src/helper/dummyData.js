@@ -1,3 +1,5 @@
+import { images } from ".";
+
 export const countries = [
     { name: 'United States', code: 'US', phoneCode: '+1' },
     { name: 'China', code: 'CN', phoneCode: '+86' },
@@ -30,3 +32,106 @@ export const countries = [
     { name: 'Thailand', code: 'TH', phoneCode: '+66' },
     { name: 'Malaysia', code: 'MY', phoneCode: '+60' },
   ];
+  export const tabData = [
+    {id: 1, tab: 'Chat'},
+    {id: 2, tab: 'Story'},
+    {id: 3, tab: 'Call'},
+  ]
+  export const indexMenuChat=[
+    {
+      id:1,
+      optionText: 'New Group',
+    },
+    {
+      id:2,
+      optionText: 'New broadCast',
+    },
+    {
+      id:3,
+      optionText: 'Linked device',
+    },
+    {
+      id:4,
+      optionText: 'Starred messages',
+    },
+    {
+      id:5,
+      optionText: 'Payments',
+    },
+    {
+      id:6,
+      optionText: 'Settings',
+    },
+  ]
+  export const indexMenuStory=[
+    {
+      id:1,
+      optionText: 'Settings',
+    },
+    
+  ]
+  export const indexMenuCall=[
+      {
+        id:1,
+        optionText: 'Clear Call Log',
+      },
+      {
+        id:2,
+        optionText: 'Settings',
+      }
+  ]
+  export const settingList = [
+    {
+      id:1,
+      lable:'Account',
+      image: images?.key,
+      data: 'Security notification, change number'
+    },{
+      id:2,
+      lable:'Privacy',
+      image: images?.lock,
+      data: 'Block contacts, disappearing messages'
+    },{
+      id:3,
+      lable:'Avatar',
+      image: images?.account,
+      data: 'Create, edit, profile, photo'
+    },
+    {
+      id:4,
+      lable:'Chats',
+      image: images?.chat,
+      data: 'Theme, wallpapers, chat, history'
+    },
+    {
+      id:5,
+      lable:'Notifications',
+      image: images?.notification,
+      data: 'Messages, group and Call tones'
+    },
+    {
+      id:6,
+      lable:'Storage and data',
+      image: images?.storage,
+      data: 'Network usage, auto-download'
+    },
+    {
+      id:7,
+      lable:'App Language',
+      image: images?.language,
+      data:  'devices language'
+    },
+    {
+      id:8,
+      lable:'Help',
+      image: images?.help,
+      data: 'Help Center, contact us, Privacy policy'
+    },
+    {
+      id:9,
+      lable:'Friends',
+      image: images?.community,
+      data: ''
+    },
+    
+  ]

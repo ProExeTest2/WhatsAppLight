@@ -10,10 +10,10 @@ const SpalshBg = ({additionlStyle}) => {
   useEffect(() => {
     setTimeout(() => {
       Animated.timing(scaleValue, {
-        toValue: 0.4, // The final scale value (50% of the original size)
-        duration: 1500, // Animation duration in milliseconds
-        easing: Easing.linear, // Easing function for smooth transition
-        useNativeDriver: false, // Set to true if using the native driver (Android)
+        toValue: 0.4, 
+        duration: 1500, 
+        easing: Easing.linear, 
+        useNativeDriver: false, 
       }).start();
     }, 0);
   }, [scaleValue]);

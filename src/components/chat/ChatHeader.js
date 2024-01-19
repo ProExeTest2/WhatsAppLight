@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Roboto, colors, hp, images, wp} from '../../helper';
+import { useSelector } from 'react-redux';
 
 const ChatHeader = ({
   title,
@@ -19,6 +20,8 @@ const ChatHeader = ({
   onCallPress,
   onMenuPress,
 }) => {
+  const color = useSelector(state => state?.data1?.iscolorMode);
+  const styles = ThemeStyle(color);
   return (
     <View style={styles?.headerView}>
       <TouchableOpacity onPress={onBackPress}>
@@ -86,7 +89,8 @@ const ChatHeader = ({
 
 export default ChatHeader;
 
-const styles = StyleSheet.create({
+const ThemeStyle = color => {
+  return StyleSheet.create({
   headerView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
   imageView: {
     height: hp(3),
     width: hp(3),
-    tintColor: colors?.white,
+    tintColor: color?.backgroundColor,
   },
   profileView: {
     width: hp(6),
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: hp(3),
     height: hp(3),
-    tintColor: colors?.white,
+    tintColor: colors?.backgroundColor,
   },
 });
+}

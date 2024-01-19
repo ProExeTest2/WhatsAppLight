@@ -11,10 +11,48 @@ const VideoCall = () => {
     const chatData = useSelector(state => state?.data?.chat);
     const {navigate, goBack} = useNavigation();
 
+    const sendPushNotification = async () => {
+      // const FIREBASE_API_KEY = 'AIzaSyB0-bQqF3aNRZh4z4ss-sz4uf3Q2nv3eZU';
+      const message = {
+        registration_ids: [
+         data[0].fcmToken,
+        ],
+        notification: {
+          title: 'Video Call',
+          body: `${userIdName} is calling you`,
+          vibrate: 1,
+          sound: 1,
+          show_in_foreground: true,
+          show_in_background: true,
+          priority: 'high',
+          content_available: true,
+          
+        },
+        data: {
+          title: 'Video Call',
+          body: `${userIdName} is calling you`,
+        },
+      };
+  
+      let headers = new Headers({
+        'Content-Type': 'application/json',
+        Authorization:
+          'key=AAAAvXymAS0:APA91bGpvbCMeKl1QMverYNjDnaDMUWgwTT6oeCQ0OdMG2YJaOsdilp09QxAO4ouLB7frNHadpqIvJ1sBwBRfoTkhamtCVQgl3NIv5CarRBSMVlQc_6wMA7-vGWEoKiLMxgw11EpCe6M',
+      });
+  
+      let response = await fetch('https://fcm.googleapis.com/fcm/send', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(message),
+      });
+      response = await response.json();
+      // console.log(response.success);
+    };
+
   const connectionData = {
    appId: 'a65518102ac345dc8263fb02c5b46c98',
-    channel: 'TestApp',
-    token: '007eJxTYMjcYj0numqlpsuc1T2RzzalfL68K+zTwqULHKqnrO6QVmpQYEg0MzU1tDA0MEpMNjYxTUm2MDIzTksyMEo2TTIxS7a02MQ/N7UhkJHBuaiHmZEBAkF8doaQ1OISx4ICBgYA/bYhBQ==', // enter your channel token as a string
+    channel: 'test',
+    token: '007eJxTYJi3wtVycc69XA6L5Z2Wx2sexlx7c8LebWWygvjstGUt66YqMCSamZoaWhgaGCUmG5uYpiRbGJkZpyUZGCWbJpmYJVtanFo5P7UhkJFBTMWQmZEBAkF8FoaS1OISBgYATRUe8g==', // enter your channel token as a string
   };
   const callbacks = {
     EndCall: () =>{ setVideoCall(false); goBack();},

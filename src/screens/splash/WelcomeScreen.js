@@ -22,7 +22,6 @@ const WelcomeScreen = () => {
       </Text>
       <CommonButton
       onPress={()=>{
-        // BackHandler.exitApp();
        
         navigate('PhoneAuth')
       }}

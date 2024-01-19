@@ -3,22 +3,25 @@ import React, {useEffect, useState} from 'react';
 import {colors, hp, images, wp} from '../../../helper';
 import ChatCard from '../../../components/chat/ChatCard';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {activeUserData, chatData} from '../../../Redux/action/action';
 import {firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import uuid from 'react-native-uuid';
 
 
 const ChatScreen = () => {
-  const [arr,setArr] = useState();
+  const [arr,setArr] = useState([]);
   const [userData, setUserData] = useState();
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const alluser=[];
+  const color = useSelector(state => state?.data1?.iscolorMode);
+  const styles = ThemeStyle(color);
   // const data = firebase?.auth().
   const user =  firebase.auth().currentUser?.phoneNumber;
-  console.log('user', user)
+  // console.log('user', user)
 
 
 
@@ -26,46 +29,31 @@ const ChatScreen = () => {
      firestore()
       .collection('Users') 
       .onSnapshot((querty)=>{
-        querty?.docs?.map((item)=>{
-          if(item?._data?.Phonenumber === user)
-          {
-            setUserData(item?._data)
-          }else{            
-                  alluser.push(item?._data)
-                  setArr(alluser)
-          }
-          // console.log('item',)
-        })
+        const data = querty?.docs?.filter((item)=>
+         item?.data()?.Uid !== auth().currentUser?.uid
+        )
+        setArr(data)
+        console.log('item',data)
       })
-      // .then(res => {
-      //   // if()
-      // res?.docs?.map((item)=>{
-      //     if(item?._data?.Phonenumber == user){
-      //       
-      //     }else{
-      //      
-      //     }})
-      // }).catch((res)=>{
-      //    console.log('err=================>', res)
-      // });
   }, []);
 
   return (
-    <View style={{flex: 1, backgroundColor: colors?.whatsAppBg}}>
+    <View style={styles?.container}>
       <FlatList 
         data={arr}
-        renderItem={({item}) => {
+        renderItem={({item,index}) => {
+          // console.log('item', )
           return (
             <ChatCard
-              profileImage={images?.profile1}
-              timeOfMsg={'5:23 am'}
-              subText={'hiii'} 
-              userName={item?.UserName}
-              onPress={() => {
-                navigate('ChatData');
-                dispatch(chatData(item));
-                dispatch(activeUserData(userData));
-              }}
+            subText={'hiii'} 
+            addtionalStyle={{marginBottom:index+1 === arr.length && hp(5)}}
+            timeOfMsg={'5:23 am'}
+            userName={item?._data?.UserName}
+            onPress={() => {
+              navigate('ChatData');
+              dispatch(chatData(item?._data));
+            }}
+            profileImage={item?._data?.ProfileImage == "" ? images?.profile1:{uri:item?._data?.ProfileImage}}
             />
           );
         }}
@@ -76,4 +64,8 @@ const ChatScreen = () => {
 
 export default ChatScreen;
 
-const styles = StyleSheet.create({});
+const ThemeStyle = color => {
+  return StyleSheet.create({
+  container: {flex: 1, backgroundColor: color?.backgroundColor, },
+});
+}

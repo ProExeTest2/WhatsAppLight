@@ -8,18 +8,27 @@ import SplasScreen from '../screens/splash/SplasScreen';
 import PhoneAuth from '../screens/auth/PhoneAuth';
 import OtpScreen from '../screens/auth/OtpScreen';
 import CallScreen from '../screens/tab/CallScreen';
-import StoryScreen from '../screens/tab/StoryScreen';
+import StoryScreen from '../screens/tab/status/StoryScreen';
 import ChatScreen from '../screens/tab/chat/ChatScreen';
 import ChatData from '../screens/tab/chat/ChatData';
 import Index from '../screens/tab/Index';
 import VideoCall from '../screens/tab/chat/video/VideoCall';
+import StatusShow from '../screens/tab/status/StatusShow';
+import SettingIndex from '../screens/setting/SettingIndex';
+import ProfileScreen from '../screens/setting/Account/ProfileScreen';
+import ChatsSetting from '../screens/setting/chat/ChatsSetting';
 
 
 const Stack = createNativeStackNavigator();
 
 const routes=()=> {
+// import { useColorScheme } from "react-native";
+// const colorScheme = useColorScheme();
+// console.log('colorScheme', colorScheme)
   return (
-    <NavigationContainer>
+    <NavigationContainer
+    // theme={}
+    >
       <Stack.Navigator initialRouteName='SplasScreen' screenOptions={{headerShown:false}}>
         <Stack.Screen name="SplasScreen" component={SplasScreen} />
         <Stack.Screen name="PhoneAuth" component={PhoneAuth} />
@@ -31,6 +40,10 @@ const routes=()=> {
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="ChatData" component={ChatData} />
         <Stack.Screen name="VideoCall" component={VideoCall} />
+        <Stack.Screen name="StatusShow" component={StatusShow} />
+        <Stack.Screen name="SettingIndex" component={SettingIndex} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="ChatsSetting" component={ChatsSetting} />
       </Stack.Navigator>
     </NavigationContainer>
   );

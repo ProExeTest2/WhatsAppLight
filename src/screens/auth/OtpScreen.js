@@ -13,6 +13,8 @@ import {Roboto, colors, hp, images, wp} from '../../helper';
 import CommonButton from '../../components/common/CommonButton';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { userData } from '../../Redux/action/action';
 
 const OtpScreen = () => {
@@ -119,9 +121,23 @@ const OtpScreen = () => {
         additionalTextStyle={{color: colors?.white, fontSize: 18}}
         buttonText={'Verify'}
         onPress={() => {
-               data1?.[0]?.confirm(otp).then((res)=>{
+               data1?.[0]?.confirm(otp).then(async(res)=>{
                    dispatch(userData(data1))
                   navigate('index')
+                  // const data={
+                  //   About:'',
+                  //   Age:'20',
+                  //   UserName: 'parth Tejani',
+                  //   Phonenumber: "+91"+phoneNumber,
+                  //   BirthDate: '10/09/2004',
+                  //   Email:'khushal@gmail.com',
+                  //   Uid: auth().currentUser?.uid,
+                  //   friends:[],
+                  //   status:[],
+                  // };
+                  // await firestore().collection('Users').doc(auth().currentUser?.uid).set(data).then(()=>{
+                  //   console.log('res', res)
+                  // });
               }).catch ((err)=>{
                    console.log('err', err)
             })

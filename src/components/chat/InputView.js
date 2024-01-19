@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors, hp, images, wp } from '../../helper'
+import { useSelector } from 'react-redux';
 
 const InputView = ({value,onChangeText,placeholder,placeholderTextColor,onSendPress}) => {
 
     const [keyboard,setKeyboardOn]=useState(false);
-
+    const color = useSelector(state => state?.data1?.iscolorMode);
+    const styles = ThemeStyle(color);
   return (
     <View style={{ flexDirection:'row',justifyContent:'space-evenly', width:'100%',marginBottom:hp(2)}}>
     <View style={{width:wp(80), backgroundColor:colors?.white,borderRadius:hp(5), justifyContent:'center', flexDirection:'row', paddingHorizontal:wp(3.5)}}>
@@ -54,4 +56,5 @@ const InputView = ({value,onChangeText,placeholder,placeholderTextColor,onSendPr
 
 export default InputView
 
-const styles = StyleSheet.create({})
+const ThemeStyle = color => {
+  return StyleSheet.create({})};
